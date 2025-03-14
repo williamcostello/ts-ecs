@@ -2,17 +2,21 @@
     "name": "@williamcostello/ts-ecs",
     "version": "1.0.0",
     "type": "module",
-    "main": "dist/ECS.js",
-    "types": "dist/ECS.d.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "scripts": {
         "dev": "vite",
-        "build": "tsc --project tsconfig.build.json",
+        "build": "tsup src/index.ts --config tsconfig.build.json --dts --format esm,cjs",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "test:watch": "vitest watch"
+        "test:watch": "vitest watch",
+        "lint": "tsc"
     },
     "devDependencies": {
+        "@changesets/cli": "^2.28.1",
         "@vitest/coverage-v8": "3.0.7",
+        "tsup": "^8.4.0",
         "typescript": "~5.7.2",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.0.7"
