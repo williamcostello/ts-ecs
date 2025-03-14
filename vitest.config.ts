@@ -8,7 +8,7 @@ export default defineConfig({
         include: ['tests/**/*.test.ts'],
         coverage: {
             reporter: ['text', 'json', 'html'],
-            exclude: ['tests', '*.config.*'],
+            exclude: ['tests', '*.config.*', 'dist', './src/index.ts'],
         },
     },
 })
