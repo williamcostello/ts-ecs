@@ -1,4 +1,4 @@
-name: “Create Release PR”
+name: Create Release PR
 
 on:
     workflow_run:
@@ -17,10 +17,9 @@ jobs:
               with:
                   node-version: 20.x
             - run: yarn install --frozen-lockfile
-            - name: Create version bump PR only
+            - name: Bump versions & update changelogs
               uses: changesets/action@v1
               with:
-                  # don’t publish yet, only open the “Version Packages” PR
-                  create-release-pr-only: true
+                  version: yarn changeset version
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
