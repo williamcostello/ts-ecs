@@ -1,12 +1,13 @@
-name: Publish
+name: “Create Release PR”
 
 on:
     workflow_run:
-        workflows: ['Create Release PR']
+        workflows: ['CI']
+        branches: [main]
         types: [completed]
 
 jobs:
-    publish:
+    version:
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         steps:
@@ -15,16 +16,11 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20.x
-                  registry-url: https://registry.npmjs.org/
             - run: yarn install --frozen-lockfile
-            - name: Run CI sanity checks
-              run: |
-                  yarn lint
-                  yarn test:coverage
-            - name: Publish to npm
+            - name: Create version bump PR only
               uses: changesets/action@v1
               with:
-                  publish: yarn release
+                  # don’t publish yet, only open the “Version Packages” PR
+                  create-release-pr-only: true
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
