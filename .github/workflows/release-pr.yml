@@ -1,37 +1,34 @@
 name: Create Release PR
-
 on:
     workflow_run:
         workflows: ['CI']
         branches: [main]
         types: [completed]
 
+permissions:
+    contents: write
+    pull-requests: write
+
 jobs:
     version:
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         steps:
-            # 1. Full checkout so we can push
-            - uses: actions/checkout@v4
+            - name: Checkout + prep for push
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
+                  ref: main
                   persist-credentials: true
 
-            # 2. Install & switch to a fresh branch
             - name: Install deps
               run: yarn install --frozen-lockfile
-            - name: Create version bump branch
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git checkout -b changeset-release
 
-            # 3. Run the Changesets version step
-            - name: Bump versions & changelogs
+            - name: Create version bump PR
               uses: changesets/action@v1
               with:
                   version: yarn changeset version
                   commit: true
-                  commit-mode: all
+                  commitMode: 'git-cli'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
