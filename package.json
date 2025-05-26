@@ -2,8 +2,19 @@
     "name": "@williamcostello/ts-ecs",
     "version": "1.0.0",
     "type": "module",
-    "main": "dist/ECS.js",
-    "types": "dist/ECS.d.ts",
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "sideEffects": false,
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "dev": "vite",
         "build": "tsc --project tsconfig.build.json",
