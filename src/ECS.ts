@@ -13,6 +13,7 @@ export class ECS {
 
   public deleteEntity(entity: Entity): void {
     this.entityManager.deleteEntity(entity);
+    this.componentManager.removeAllComponentsForEntity(entity);
   }
 
   public hasEntity(entity: Entity): boolean {
@@ -23,19 +24,30 @@ export class ECS {
     this.componentManager.addComponent(entity, component);
   }
 
-  public getComponent<T>(entity: Entity, componentType: ComponentCtor<T>): T | undefined {
+  public getComponent<T>(
+    entity: Entity,
+    componentType: ComponentCtor<T>,
+  ): T | undefined {
     return this.componentManager.getComponent(entity, componentType);
   }
 
-  public getEntitiesWithComponent<T>(componentType: ComponentCtor<T>): IterableIterator<Entity> {
+  public getEntitiesWithComponent<T>(
+    componentType: ComponentCtor<T>,
+  ): IterableIterator<Entity> {
     return this.componentManager.getEntitiesWithComponent(componentType);
   }
 
-  public hasComponent<T>(entity: Entity, componentType: ComponentCtor<T>): boolean {
+  public hasComponent<T>(
+    entity: Entity,
+    componentType: ComponentCtor<T>,
+  ): boolean {
     return this.componentManager.hasComponent(entity, componentType);
   }
 
-  public removeComponent<T>(entity: Entity, componentType: ComponentCtor<T>): void {
+  public removeComponent<T>(
+    entity: Entity,
+    componentType: ComponentCtor<T>,
+  ): void {
     this.componentManager.removeComponent(entity, componentType);
   }
 
