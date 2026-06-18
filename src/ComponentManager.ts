@@ -1,7 +1,7 @@
 import { Entity } from "@/EntityManager";
 
 export type ComponentCtor<T = any> = new (...args: any[]) => T;
-export type Component = object;
+export type Component = object & { prototype?: never };
 
 export class ComponentManager {
   private components: Map<ComponentCtor, Map<Entity, unknown>> = new Map();
